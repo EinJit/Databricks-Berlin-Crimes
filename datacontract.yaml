@@ -1,0 +1,94 @@
+dataContractSpecification: 0.9.3
+id: urn:datacontract:s231871:berlin-crimes
+info:
+  title: Last Sales
+  version: 1.0.0
+  description: |
+    This data product contains a kaggle datasets about crimes in Berlin. Which is the capital of Germany. 
+    It is used to show how to build a data product with Databricks Asset Bundles.
+  owner: s231871
+  contact:
+    name: s231871
+servers:
+  development:
+    type: databricks
+    host: dbc-4448e0f3-174d.cloud.databricks.com
+    catalog: acme
+    schema: berlin-crimes
+terms:
+  usage: >
+    Data can be used for reports, analytics and machine learning use cases.
+    Can be used for forcasting and other approaches. Can be linked via the District or Code.
+  limitations: >
+    The Data is not guaranteed to be up to date and only reaches from 2012 to 2019.
+  billing: free
+  noticePeriod: P3M
+models:
+  articles:
+    description: One record per Code in district with
+    type: table
+    fields:
+      Year:
+        description: The year from which the data was collected
+        type: long
+        required: true
+        pattern: ^[0-9]{4}$
+        minLength: 4
+        maxLength: 4
+      District:
+        description: The district from which the data was collected
+        type: string
+        required: true
+        pattern: ^[A-Za-z0-9]{0,14}$
+        minLength: 0
+        maxLength: 14
+      Code:
+        description: The District Code from which the data was collected so it is a more fine grained representation for the District
+        type: long
+        required: true
+        pattern: ^[0-9]{5}$
+        minLength: 5
+        maxLength: 5
+      Location:
+        description: The location from which the data was collected
+        type: string
+        required: true
+        pattern: ^[A-Za-z0-9]{0,30}$
+        minLength: 0
+        maxLength: 30
+      Robbery:
+        description: The number of robberies in the District
+        type: long
+        required: true
+      Street_robbery:
+        description: The number of street robberies in the District
+        type: long
+        required: true
+      Injury:
+        description: The number of injuries in the District
+        type: long
+        required: true
+
+servicelevels:
+  availability:
+    percentage: 99.9%
+  retention:
+    period: 1 year
+#  freshness:
+#    threshold: 25 hours
+#    timestampField: articles.processing_timestamp
+examples:
+  - type: csv
+    data: |
+      "Year","District","Code","Location","Robbery","Street_robbery","Injury","Agg_assault","Threat","Theft","Car","From_car","Bike","Burglary","Fire","Arson","Damage","Graffiti","Drugs","Local"
+      2012,"Mitte",10111,"Tiergarten Süd",70,46,586,194,118,2263,18,328,120,68,16,4,273,26,171,1032
+      2012,"Mitte",10112,"Regierungsviertel",65,29,474,123,142,3203,10,307,170,37,10,4,380,124,98,870
+      2012,"Mitte",10113,"Alexanderplatz",242,136,1541,454,304,8988,81,792,822,275,49,27,1538,522,435,3108
+      2012,"Mitte",10114,"Brunnenstraße Süd",52,25,254,60,66,1916,86,192,396,131,14,5,428,122,213,752
+      2012,"Mitte",10221,"Moabit West",130,51,629,185,199,2470,94,410,325,161,42,22,516,64,259,1403
+      2012,"Mitte",10222,"Moabit Ost",89,45,549,147,204,2290,63,353,337,90,33,10,392,52,416,1212
+quality:
+  type: SodaCL
+  specification:
+    checks for articles:
+      - row_count > 1000

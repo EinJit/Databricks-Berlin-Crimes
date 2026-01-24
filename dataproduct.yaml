@@ -1,0 +1,23 @@
+dataProductSpecification: 0.0.1
+id: urn:dataproduct:s231871:berlin-crimes
+info:
+  title: Berlin Crimes
+  owner: fulfillment
+  status: active
+  description: |
+    This data product contains a kaggle datasets about crimes in Berlin. Which is the capital of Germany. 
+    It is used to show how to build a data product with Databricks Asset Bundles.
+  archetype: source-aligned
+  maturity: managed
+inputPorts: []
+outputPorts:
+  - id: berlin-crimes
+    dataContractId: urn:datacontract:s231871:berlin-crimes
+    name: berlin-crimes
+    status: active
+    description: The data should be available as a Unity Catalog Table
+    type: databricks
+    server:
+      host: dbc-4448e0f3-174d.cloud.databricks.com
+      catalog: acme
+      schema: berlin-crimes
